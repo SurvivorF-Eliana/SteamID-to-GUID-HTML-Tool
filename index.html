@@ -158,7 +158,7 @@
     <header class="panel header">
       <div class="brand">
         <h1>STEAMID64 TO GUID</h1>
-        <span class="badge">TOOL.V07</span>
+        <span class="badge">TOOL.V08</span>
       </div>
       <div class="readout" id="status">[ IDLE ]</div>
     </header>
@@ -181,7 +181,6 @@
         <div class="profile-stats" id="p-stats" style="display:none;">
           <div class="stat-badge" id="p-vac">VAC: [ SCANNING ]</div>
           <div class="stat-badge" id="p-trade">TRADE: [ SCANNING ]</div>
-          <div class="stat-badge" id="p-rep">REP: [ SCANNING ]</div>
         </div>
       </div>
 
@@ -300,45 +299,51 @@
         $('p-card').classList.add('active');
         $('p-stats').style.display = 'none';
 
-        const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://steamrep.com/api/beta4/reputation/'+steamid+'?json=1')}`);
+        // Usamos el endpoint nativo de Steam (XML) mediante el proxy, es 100% confiable.
+        const url = `https://steamcommunity.com/profiles/${steamid}?xml=1`;
+        const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
         const data = await res.json();
-        const repData = JSON.parse(data.contents).steamrep;
         
-        if (repData && repData.flags && repData.flags.status === "exists") {
-          $('p-name').innerText = repData.displayname || steamid;
-          $('p-avatar').src = repData.avatar || '';
+        if (!data.contents) throw new Error("Empty proxy response");
+
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+        
+        const errorNode = xmlDoc.querySelector("error");
+        if (errorNode) {
+          $('p-name').innerText = "PROFILE NOT FOUND";
+          return;
+        }
+
+        const nameNode = xmlDoc.querySelector("steamID");
+        const avatarNode = xmlDoc.querySelector("avatarFull") || xmlDoc.querySelector("avatarMedium");
+        const vacNode = xmlDoc.querySelector("vacBanned");
+        const tradeNode = xmlDoc.querySelector("tradeBanState");
+
+        if (nameNode) {
+          $('p-name').innerText = nameNode.textContent;
+          if (avatarNode) $('p-avatar').src = avatarNode.textContent;
           $('p-url').href = `https://steamcommunity.com/profiles/${steamid}`;
           
-          // Stats parsing
-          const vac = repData.vacban === "1";
-          const trade = repData.tradeban === "1";
-          const rep = repData.reputation && repData.reputation.summary ? repData.reputation.summary : "none";
-          
+          const isVac = vacNode && vacNode.textContent === "1";
+          const isTrade = tradeNode && tradeNode.textContent !== "None";
+
           const setBadge = (id, label, isBad) => {
             const el = $(id);
             el.innerText = `${label}: [ ${isBad ? 'BANNED' : 'OK'} ]`;
             el.className = 'stat-badge ' + (isBad ? 'bad' : 'ok');
           };
 
-          setBadge('p-vac', 'VAC', vac);
-          setBadge('p-trade', 'TRADE', trade);
+          setBadge('p-vac', 'VAC', isVac);
+          setBadge('p-trade', 'TRADE', isTrade);
           
-          const repEl = $('p-rep');
-          if (rep.toLowerCase().includes('scammer') || rep.toLowerCase().includes('banned')) {
-            repEl.innerText = `REP: [ ${rep.toUpperCase()} ]`;
-            repEl.className = 'stat-badge bad';
-          } else {
-            repEl.innerText = `REP: [ CLEAN ]`;
-            repEl.className = 'stat-badge ok';
-          }
-
           $('p-stats').style.display = 'flex';
         } else {
-          $('p-name').innerText = "PROFILE NOT FOUND";
+          $('p-name').innerText = "PRIVATE / UNAVAILABLE";
         }
       } catch (e) {
-        console.warn("Could not fetch profile info", e);
-        $('p-name').innerText = "DATA UNAVAILABLE";
+        console.warn("Profile fetch error:", e);
+        $('p-name').innerText = "PROXY TIMEOUT";
       }
     }
 
@@ -358,7 +363,6 @@
       setStatus('PROCESSING...', 'hl');
 
       try {
-        // Ejecuta el fetch visual sin bloquear los cálculos pesados de abajo
         fetchSteamProfile(steamid);
 
         const dayzGuid = await sha256Base64URLSafe(steamid);
