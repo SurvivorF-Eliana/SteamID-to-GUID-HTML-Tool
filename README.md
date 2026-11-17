@@ -1,4 +1,3 @@
-::: {align="center"}
 # 🎮 SteamID64 to GUID Converter
 
 **A tactical identity conversion toolkit for DayZ & Arma
@@ -27,8 +26,6 @@ Side](https://img.shields.io/badge/Architecture-Client--Side-24292f?style=flat-s
 ![Arma](https://img.shields.io/badge/Arma-Supported-8aab42?style=flat-square)
 ![No
 Backend](https://img.shields.io/badge/Backend-Not%20Required-24292f?style=flat-square)
-
-:::
 
 ------------------------------------------------------------------------
 
@@ -128,7 +125,7 @@ the identifier expected by the target game or server system.
 
 ``` text
 ┌──────────────────────────────────────────────────────┐
-│             STEAMID64 → GUID CONVERTER                │
+│             STEAMID64 → GUID CONVERTER               │
 ├──────────────────────────────────────────────────────┤
 │  INPUT                                               │
 │  ┌────────────────────────────────────────────────┐  │
@@ -139,9 +136,9 @@ the identifier expected by the target game or server system.
 │  ┌────────────────────────────────────────────────┐  │
 │  │ DAYZ HASHED ID                         [COPY]  │  │
 │  ├────────────────────────────────────────────────┤  │
-│  │ BATTLEYE GUID                         [COPY]  │  │
+│  │ BATTLEYE GUID                         [COPY]   │  │
 │  ├────────────────────────────────────────────────┤  │
-│  │ BATTLEYE BAN ENTRY                    [COPY]  │  │
+│  │ BATTLEYE BAN ENTRY                    [COPY]   │  │
 │  └────────────────────────────────────────────────┘  │
 │                                                      │
 │  STEAMREP ACCOUNT CHECK                              │
