@@ -27,7 +27,7 @@ Side](https://img.shields.io/badge/Architecture-Client--Side-24292f?style=flat-s
 ![Arma](https://img.shields.io/badge/Arma-Supported-8aab42?style=flat-square)
 ![No
 Backend](https://img.shields.io/badge/Backend-Not%20Required-24292f?style=flat-square)
-:::
+
 
 ------------------------------------------------------------------------
 
