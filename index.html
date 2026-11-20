@@ -7,6 +7,62 @@
   <link rel="icon" id="favicon" type="image/png" href="https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/e_Logo1.png">
   <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
+  <style>
+    /* Ambient parallax backdrop: decorative only, UI stays on its own layer. */
+    body { position: relative; isolation: isolate; overflow-x: hidden; }
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -14vh -8vw;
+      z-index: -1;
+      pointer-events: none;
+      will-change: transform;
+    }
+    body::before {
+      background:
+        radial-gradient(ellipse at 18% 24%, rgba(214,255,0,.075), transparent 32%),
+        radial-gradient(ellipse at 82% 72%, rgba(255,0,60,.055), transparent 35%),
+        linear-gradient(135deg, transparent 35%, rgba(255,255,255,.018) 50%, transparent 65%);
+      transform: translate3d(0,0,0) scale(1.08);
+    }
+    body::after {
+      opacity: .36;
+      background-image:
+        linear-gradient(rgba(214,255,0,.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(214,255,0,.10) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,.55) 0.7px, transparent .9px);
+      background-size: 72px 72px, 72px 72px, 34px 34px;
+      mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+      transform: translate3d(0,0,0) perspective(900px) rotateX(2deg) scale(1.12);
+    }
+    .wrap { position: relative; z-index: 1; }
+    @supports (animation-timeline: scroll()) {
+      @media (prefers-reduced-motion: no-preference) {
+        body::before {
+          animation: ambient-drift linear both;
+          animation-timeline: scroll(root);
+        }
+        body::after {
+          animation: grid-drift linear both;
+          animation-timeline: scroll(root);
+        }
+        @keyframes ambient-drift {
+          from { transform: translate3d(0, -2.5vh, 0) scale(1.08); }
+          to   { transform: translate3d(0, 2.5vh, 0) scale(1.08); }
+        }
+        @keyframes grid-drift {
+          from { transform: translate3d(0, -5vh, 0) perspective(900px) rotateX(2deg) scale(1.12); }
+          to   { transform: translate3d(0, 5vh, 0) perspective(900px) rotateX(2deg) scale(1.12); }
+        }
+      }
+    }
+    @media (max-width: 760px) {
+      body::after { opacity: .20; background-size: 56px 56px, 56px 56px, 30px 30px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      body::before, body::after { animation: none !important; }
+    }
     :root {
       --bg: #050506;
       --panel: rgba(18, 18, 22, 0.9);
