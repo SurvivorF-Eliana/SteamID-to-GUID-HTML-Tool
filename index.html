@@ -8,60 +8,40 @@
   <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
   <style>
-    /* Ambient parallax backdrop: decorative only, UI stays on its own layer. */
-    body { position: relative; isolation: isolate; overflow-x: hidden; }
-    body::before,
-    body::after {
-      content: "";
-      position: fixed;
-      inset: -14vh -8vw;
-      z-index: -1;
-      pointer-events: none;
+    /* Pointer-driven parallax on the actual tool container (no page scroll required). */
+    .wrap {
+      --tilt-x: 0deg;
+      --tilt-y: 0deg;
+      --shift-x: 0px;
+      --shift-y: 0px;
+      position: relative;
+      z-index: 1;
+      transform: perspective(1200px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y))
+        translate3d(var(--shift-x), var(--shift-y), 0);
+      transform-style: preserve-3d;
+      transition: transform 180ms ease-out;
       will-change: transform;
     }
-    body::before {
+    .wrap::before {
+      content: "";
+      position: absolute;
+      inset: -28px -34px;
+      z-index: -1;
+      pointer-events: none;
+      border-radius: 24px;
       background:
-        radial-gradient(ellipse at 18% 24%, rgba(214,255,0,.075), transparent 32%),
-        radial-gradient(ellipse at 82% 72%, rgba(255,0,60,.055), transparent 35%),
-        linear-gradient(135deg, transparent 35%, rgba(255,255,255,.018) 50%, transparent 65%);
-      transform: translate3d(0,0,0) scale(1.08);
+        radial-gradient(ellipse at 18% 18%, rgba(214,255,0,.085), transparent 42%),
+        radial-gradient(ellipse at 82% 84%, rgba(255,0,60,.065), transparent 44%);
+      filter: blur(18px);
+      transform: translate3d(calc(var(--shift-x) * -1.8), calc(var(--shift-y) * -1.8), -24px);
+      transition: transform 180ms ease-out;
     }
-    body::after {
-      opacity: .36;
-      background-image:
-        linear-gradient(rgba(214,255,0,.10) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(214,255,0,.10) 1px, transparent 1px),
-        radial-gradient(circle, rgba(255,255,255,.55) 0.7px, transparent .9px);
-      background-size: 72px 72px, 72px 72px, 34px 34px;
-      mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
-      transform: translate3d(0,0,0) perspective(900px) rotateX(2deg) scale(1.12);
-    }
-    .wrap { position: relative; z-index: 1; }
-    @supports (animation-timeline: scroll()) {
-      @media (prefers-reduced-motion: no-preference) {
-        body::before {
-          animation: ambient-drift linear both;
-          animation-timeline: scroll(root);
-        }
-        body::after {
-          animation: grid-drift linear both;
-          animation-timeline: scroll(root);
-        }
-        @keyframes ambient-drift {
-          from { transform: translate3d(0, -2.5vh, 0) scale(1.08); }
-          to   { transform: translate3d(0, 2.5vh, 0) scale(1.08); }
-        }
-        @keyframes grid-drift {
-          from { transform: translate3d(0, -5vh, 0) perspective(900px) rotateX(2deg) scale(1.12); }
-          to   { transform: translate3d(0, 5vh, 0) perspective(900px) rotateX(2deg) scale(1.12); }
-        }
-      }
-    }
-    @media (max-width: 760px) {
-      body::after { opacity: .20; background-size: 56px 56px, 56px 56px, 30px 30px; }
+    @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+      .wrap.is-parallax { transition: transform 80ms linear; }
+      .wrap.is-parallax::before { transition: transform 80ms linear; }
     }
     @media (prefers-reduced-motion: reduce) {
-      body::before, body::after { animation: none !important; }
+      .wrap, .wrap::before { transform: none !important; transition: none !important; }
     }
     :root {
       --bg: #050506;
@@ -390,7 +370,29 @@
   (function(){
     'use strict';
     const $ = id => document.getElementById(id);
-    const $$ = s => Array.from(document.querySelectorAll(s));
+    const $ = s => Array.from(document.querySelectorAll(s));
+    const parallaxWrap = document.querySelector('.wrap');
+    if (parallaxWrap && window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      parallaxWrap.addEventListener('pointermove', (event) => {
+        const rect = parallaxWrap.getBoundingClientRect();
+        const nx = (event.clientX - rect.left) / rect.width - 0.5;
+        const ny = (event.clientY - rect.top) / rect.height - 0.5;
+        parallaxWrap.style.setProperty('--tilt-y', (nx * 2.2).toFixed(2) + 'deg');
+        parallaxWrap.style.setProperty('--tilt-x', (ny * -1.6).toFixed(2) + 'deg');
+        parallaxWrap.style.setProperty('--shift-x', (nx * 3).toFixed(1) + 'px');
+        parallaxWrap.style.setProperty('--shift-y', (ny * 3).toFixed(1) + 'px');
+        parallaxWrap.classList.add('is-parallax');
+      });
+      parallaxWrap.addEventListener('pointerleave', () => {
+        parallaxWrap.style.setProperty('--tilt-x', '0deg');
+        parallaxWrap.style.setProperty('--tilt-y', '0deg');
+        parallaxWrap.style.setProperty('--shift-x', '0px');
+        parallaxWrap.style.setProperty('--shift-y', '0px');
+        parallaxWrap.classList.remove('is-parallax');
+      });
+    }
+
 
     const STORE = 'steam2guid_v10';
     const BASE = 'https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/';
