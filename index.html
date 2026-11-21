@@ -356,8 +356,9 @@
         </svg>
       </a>
       <div>
-        <span data-i18n="powered_by">POWERED BY</span> <a href="https://github.com/ignaciochemes" target="_blank">IGNACIOCHEMES</a><br>
-        <span data-i18n="mit_thanks">THANKS FOR THE MIT LICENSE</span>
+        <span data-i18n="powered_by">Powered by</span> <a href="https://github.com/ignaciochemes" target="_blank">IGNACIOCHEMES</a><br>
+        <span data-i18n="why_thanks">SteamID Finder for DayZ & Arma 3 GUID Calculator/Converter. Discord Bot Convert SteamID64 to Battleye GUID (MD5 hash).</span><br>
+        <span data-i18n="mit_thanks">THANKS FOR THE MIT LICENSE!</span>
       </div>
     </div>
   </div>
@@ -374,8 +375,8 @@
         const rect = parallaxWrap.getBoundingClientRect();
         const nx = (event.clientX - rect.left) / rect.width - 0.5;
         const ny = (event.clientY - rect.top) / rect.height - 0.5;
-        parallaxWrap.style.setProperty('--tilt-y', (nx * 5.0).toFixed(2) + 'deg'); // Máx ±1.25°
-        parallaxWrap.style.setProperty('--tilt-x', (ny * -3.6).toFixed(2) + 'deg'); // Máx ±0.90°
+        parallaxWrap.style.setProperty('--tilt-y', (nx * 5.0).toFixed(2) + 'deg'); // Máx ±2.5°
+        parallaxWrap.style.setProperty('--tilt-x', (ny * -3.6).toFixed(2) + 'deg'); // Máx ±1.80°
         parallaxWrap.classList.add('is-parallax');
       });
       parallaxWrap.addEventListener('pointerleave', () => {
@@ -388,7 +389,7 @@
 
     const STORE = 'steam2guid_v10';
     const BASE = 'https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/';
-    const logos = ['e_Logo5.png', 'e_Logo3.png', 'e_Logo1.png'];
+    const logos = ['e_Logo5.png', 'e_Logo1.png'];
     const state = { lang: 'es', logo: 0, statusKey: 'st_idle', statusType: 'normal', vacState: 'SCANNING', tradeState: 'SCANNING' };
 
     const I18N = {
@@ -418,6 +419,7 @@
         banned: 'BANEADO',
         ok: 'OK',
         powered_by: 'IMPULSADO POR',
+        why_thanks: 'Buscador de SteamID y Calculadora/Conversor de GUID para DayZ y Arma 3. Bot de Discord para convertir SteamID64 a BattlEye GUID (hash MD5).',
         mit_thanks: 'GRACIAS POR LA LICENCIA MIT'
       },
       en: {
@@ -446,6 +448,7 @@
         banned: 'BANNED',
         ok: 'OK',
         powered_by: 'POWERED BY',
+        why_thanks: 'SteamID Finder for DayZ & Arma 3 GUID Calculator/Converter. Discord Bot Convert SteamID64 to Battleye GUID (MD5 hash).',
         mit_thanks: 'THANKS FOR THE MIT LICENSE'
       },
       fr: {
@@ -474,6 +477,7 @@
         banned: 'BANNI',
         ok: 'OK',
         powered_by: 'PROPULSÉ PAR',
+        why_thanks: 'Recherche de SteamID et Calculateur/Convertisseur de GUID pour DayZ et Arma 3. Bot Discord pour convertir SteamID64 en BattlEye GUID (hash MD5).',
         mit_thanks: 'MERCI POUR LA LICENCE MIT'
       },
       it: {
@@ -502,6 +506,7 @@
         banned: 'BANNATO',
         ok: 'OK',
         powered_by: 'OFFERTO DA',
+        why_thanks: 'Ricerca SteamID e Calcolatore/Convertitore GUID per DayZ e Arma 3. Bot Discord per convertire SteamID64 in BattlEye GUID (hash MD5).',
         mit_thanks: 'GRAZIE PER LA LICENZA MIT'
       },
       de: {
@@ -530,6 +535,7 @@
         banned: 'GESPERRT',
         ok: 'OK',
         powered_by: 'UNTERSTÜTZT VON',
+        why_thanks: 'SteamID-Finder und GUID-Rechner/Konverter für DayZ & Arma 3. Discord-Bot zum Konvertieren von SteamID64 in BattlEye GUID (MD5-Hash).',
         mit_thanks: 'DANKE FÜR DIE MIT-LIZENZ'
       },
       cs: {
@@ -558,6 +564,7 @@
         banned: 'ZABANOVÁN',
         ok: 'OK',
         powered_by: 'POHÁNĚNO',
+        why_thanks: 'Vyhledávač SteamID a kalkulačka/převodník GUID pro DayZ a Arma 3. Discord bot pro převod SteamID64 na BattlEye GUID (MD5 hash).',
         mit_thanks: 'DÍKY ZA LICENCI MIT'
       },
       ru: {
@@ -586,6 +593,7 @@
         banned: 'БАН',
         ok: 'ОК',
         powered_by: 'НА БАЗЕ',
+        why_thanks: 'Поиск SteamID и калькулятор/конвертер GUID для DayZ и Arma 3. Discord-бот для конвертации SteamID64 в BattlEye GUID (MD5-хеш).',
         mit_thanks: 'СПАСИБО ЗА ЛИЦЕНЗИЮ MIT'
       },
       pl: {
@@ -614,6 +622,7 @@
         banned: 'ZBANOWANY',
         ok: 'OK',
         powered_by: 'WSPierane PRZEZ',
+        why_thanks: 'Wyszukiwarka SteamID oraz kalkulator/konwerter GUID dla DayZ i Arma 3. Bot Discord konwertujący SteamID64 na BattlEye GUID (hash MD5).',
         mit_thanks: 'DZIĘKI ZA LICENCJĘ MIT'
       },
       pt: {
@@ -642,6 +651,7 @@
         banned: 'BANIDO',
         ok: 'OK',
         powered_by: 'DESENVOLVIDO POR',
+        why_thanks: 'Localizador de SteamID e Calculadora/Conversor de GUID para DayZ e Arma 3. Bot do Discord para converter SteamID64 em BattlEye GUID (hash MD5).',
         mit_thanks: 'OBRIGADO PELA LICENÇA MIT'
       },
       zh: {
@@ -670,6 +680,7 @@
         banned: '已封禁',
         ok: '正常',
         powered_by: '技术支持',
+        why_thanks: '适用于 DayZ 和 Arma 3 的 SteamID 查找器与 GUID 计算器/转换器。可将 SteamID64 转换为 BattlEye GUID（MD5 哈希）的 Discord 机器人。',
         mit_thanks: '感谢 MIT 许可证'
       },
       'zh-tw': {
@@ -698,6 +709,7 @@
         banned: '已封鎖',
         ok: '正常',
         powered_by: '技術支援',
+        why_thanks: '適用於 DayZ 和 Arma 3 的 SteamID 尋找器與 GUID 計算機/轉換器。可將 SteamID64 轉換為 BattlEye GUID（MD5 雜湊）的 Discord 機器人。',
         mit_thanks: '感謝 MIT 授權條款'
       },
       ja: {
@@ -726,6 +738,7 @@
         banned: 'BAN済',
         ok: 'OK',
         powered_by: 'POWERED BY',
+        why_thanks: 'DayZ & Arma 3 用の SteamID ファインダーおよび GUID 計算機/コンバーター。SteamID64 を BattlEye GUID（MD5 ハッシュ）に変換する Discord ボット。',
         mit_thanks: 'MIT ライセンスに感謝します'
       },
       ko: {
@@ -754,6 +767,7 @@
         banned: '차단됨',
         ok: '정상',
         powered_by: 'POWERED BY',
+        why_thanks: 'DayZ 및 Arma 3용 SteamID 찾기 및 GUID 계산기/변환기. SteamID64를 BattlEye GUID(MD5 해시)로 변환하는 Discord 봇.',
         mit_thanks: 'MIT 라이선스 제공에 감사드립니다'
       }
     };
