@@ -264,6 +264,25 @@
       .profile-card { flex-direction: column; align-items: flex-start; gap: 15px; }
       .profile-stats { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
     }
+
+    /* The desktop tool is a single-screen interface: no useless page chrome. */
+    html, body { width: 100%; height: 100%; }
+    body {
+      min-height: 0;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+    .wrap { flex: 0 1 auto; }
+    /* Keep the interface usable on short screens instead of clipping controls. */
+    @media (max-height: 680px), (max-width: 760px) {
+      html, body { height: auto; min-height: 100%; }
+      body {
+        min-height: 100svh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior-y: contain;
+      }
+    }
   </style>
 </head>
 <body>
