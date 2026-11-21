@@ -374,8 +374,8 @@
         const rect = parallaxWrap.getBoundingClientRect();
         const nx = (event.clientX - rect.left) / rect.width - 0.5;
         const ny = (event.clientY - rect.top) / rect.height - 0.5;
-        parallaxWrap.style.setProperty('--tilt-y', (nx * 0.9).toFixed(2) + 'deg');
-        parallaxWrap.style.setProperty('--tilt-x', (ny * -0.9).toFixed(2) + 'deg');
+        parallaxWrap.style.setProperty('--tilt-y', (nx * 2.5).toFixed(2) + 'deg'); // Máx ±1.25°
+        parallaxWrap.style.setProperty('--tilt-x', (ny * -1.8).toFixed(2) + 'deg'); // Máx ±0.90°
         parallaxWrap.classList.add('is-parallax');
       });
       parallaxWrap.addEventListener('pointerleave', () => {
