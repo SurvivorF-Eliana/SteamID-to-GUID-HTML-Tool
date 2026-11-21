@@ -7,41 +7,18 @@
   <link rel="icon" id="favicon" type="image/png" href="https://raw.githubusercontent.com/SurvivorF-Eliana/DZ-ServerZ/main/Logos/Mines/e_Logo1.png">
   <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-  <style>
-    /* Pointer-driven parallax on the actual tool container (no page scroll required). */
+    /* Subtle pointer parallax on the complete tool, not on its individual panels. */
     .wrap {
       --tilt-x: 0deg;
       --tilt-y: 0deg;
-      --shift-x: 0px;
-      --shift-y: 0px;
-      position: relative;
-      z-index: 1;
-      transform: perspective(1200px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y))
-        translate3d(var(--shift-x), var(--shift-y), 0);
-      transform-style: preserve-3d;
-      transition: transform 180ms ease-out;
+      transform: perspective(1400px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+      transform-origin: center center;
+      transition: transform 220ms ease-out;
       will-change: transform;
     }
-    .wrap::before {
-      content: "";
-      position: absolute;
-      inset: -28px -34px;
-      z-index: -1;
-      pointer-events: none;
-      border-radius: 24px;
-      background:
-        radial-gradient(ellipse at 18% 18%, rgba(214,255,0,.085), transparent 42%),
-        radial-gradient(ellipse at 82% 84%, rgba(255,0,60,.065), transparent 44%);
-      filter: blur(18px);
-      transform: translate3d(calc(var(--shift-x) * -1.8), calc(var(--shift-y) * -1.8), -24px);
-      transition: transform 180ms ease-out;
-    }
-    @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-      .wrap.is-parallax { transition: transform 80ms linear; }
-      .wrap.is-parallax::before { transition: transform 80ms linear; }
-    }
+    .wrap.is-parallax { transition: transform 70ms linear; }
     @media (prefers-reduced-motion: reduce) {
-      .wrap, .wrap::before { transform: none !important; transition: none !important; }
+      .wrap { transform: none !important; transition: none !important; }
     }
     :root {
       --bg: #050506;
@@ -397,17 +374,13 @@
         const rect = parallaxWrap.getBoundingClientRect();
         const nx = (event.clientX - rect.left) / rect.width - 0.5;
         const ny = (event.clientY - rect.top) / rect.height - 0.5;
-        parallaxWrap.style.setProperty('--tilt-y', (nx * 2.2).toFixed(2) + 'deg');
-        parallaxWrap.style.setProperty('--tilt-x', (ny * -1.6).toFixed(2) + 'deg');
-        parallaxWrap.style.setProperty('--shift-x', (nx * 3).toFixed(1) + 'px');
-        parallaxWrap.style.setProperty('--shift-y', (ny * 3).toFixed(1) + 'px');
+        parallaxWrap.style.setProperty('--tilt-y', (nx * 0.9).toFixed(2) + 'deg');
+        parallaxWrap.style.setProperty('--tilt-x', (ny * -0.65).toFixed(2) + 'deg');
         parallaxWrap.classList.add('is-parallax');
       });
       parallaxWrap.addEventListener('pointerleave', () => {
         parallaxWrap.style.setProperty('--tilt-x', '0deg');
         parallaxWrap.style.setProperty('--tilt-y', '0deg');
-        parallaxWrap.style.setProperty('--shift-x', '0px');
-        parallaxWrap.style.setProperty('--shift-y', '0px');
         parallaxWrap.classList.remove('is-parallax');
       });
     }
